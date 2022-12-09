@@ -20,12 +20,12 @@ def gdp_growth(filename, cur, conn):
         for l in date[j]:
             date_list.append(l)
         j += 1
+    date_list.reverse()
 
     cur.execute("SELECT value FROM gdp")
     conn.commit()
     value = cur.fetchall()
     i = 0
-    y = 0
     int_gdp = []
     gdp_difference = []
     while i < len(value):
@@ -39,6 +39,7 @@ def gdp_growth(filename, cur, conn):
     f.write("Simply subtract the gdp of first year from second year\n")
     f.write("---------------------------------------------------------------------------------------------------------\n")
     
+    y = 0
     while y < len(int_gdp)-1:
         diff = int_gdp[y] - int_gdp[y+1]
         gdp_difference.append(diff)
@@ -53,7 +54,7 @@ def visualization(date, gdp_difference):
     i = 0
     middle_year = []
     while i < len(date)-1:
-        middle = (int(date[i+1]) + int(date[i])) / 2
+        middle = (int(date[i]) + int(date[i+1])) / 2
         middle_year.append(middle)
         i += 1
 

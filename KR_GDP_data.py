@@ -25,7 +25,7 @@ def set_table(cur, conn, content):
     '''Set the table'''
 
     #cur.execute('''DROP TABLE IF EXISTS gdp''')
-    cur.execute("CREATE TABLE IF NOT EXISTS gdp(date TEXT PRIMARY KEY, value INTEGER)")
+    cur.execute('''CREATE TABLE IF NOT EXISTS gdp(id INTEGER PRIMARY KEY, date TEXT, value INTEGER)''')
     conn.commit()
 
     date = []
@@ -45,13 +45,13 @@ def insert_data(cur, conn, date, value):
     if rows < max:
         i = 0
         while i < max:
-            cur.execute("INSERT OR IGNORE INTO gdp VALUES(?,?)", (date[i], value[i]))
+            cur.execute("INSERT OR IGNORE INTO gdp VALUES(?,?,?)", (i+1, date[i], value[i]))
             conn.commit()
             i += 1
     if rows >= max and rows < rows+max:
         i = 25
         while i < max+max:
-            cur.execute("INSERT OR IGNORE INTO gdp VALUES(?,?)", (date[i], value[i]))
+            cur.execute("INSERT OR IGNORE INTO gdp VALUES(?,?,?)", (i+1, date[i], value[i]))
             conn.commit()
             i += 1
     if rows >= max+max:
@@ -60,7 +60,7 @@ def insert_data(cur, conn, date, value):
             if i >= len(date):
                 break
             else:
-                cur.execute("INSERT OR IGNORE INTO gdp VALUES(?,?)", (date[i], value[i]))
+                cur.execute("INSERT OR IGNORE INTO gdp VALUES(?,?,?)", (i+1, date[i], value[i]))
                 conn.commit()
                 i += 1
 
