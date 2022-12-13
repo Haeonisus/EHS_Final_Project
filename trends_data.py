@@ -11,19 +11,19 @@ def set_connector():
     return conn, cur
 
 def get_data() :
-    params1 = {
+    params = {
+        "api_key": "ada9cfe28fcdf8fb00125c01d68c6471449a3e8a2be8228a15ba33d5d40795a4",
         "device": "desktop",
         "engine": "google_trends",
         "q": "BTS, BLACKPINK, TWICE, Stray Kids, NCT 127",
-        "data_type": "TIMESERIES",
-        "date": "2003-01-01 2021-12-31",
         "cat": "3",
-        "api_key": "ada9cfe28fcdf8fb00125c01d68c6471449a3e8a2be8228a15ba33d5d40795a4"
+        "date": "2003-01-01 2021-12-31",
+        "data_type": "TIMESERIES"
     }
 
-    search1 = GoogleSearch(params1)
-    results = search1.get_json()
-
+    search = GoogleSearch(params)
+    results = search.get_json()
+    print(results)
     return results
 
 def set_table(cur, conn, data):
