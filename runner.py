@@ -3,9 +3,10 @@ import spotify_get
 import sqlite3
 import constructdb
 #artist_list = ["BTS", "BLACKPINK", "TWICE", "Stray Kids", "NCT 127", "Big Bang", "KARA", "Girls Generation", "Red Velvet", "Monsta X", "EXO", "GOT 7", "SHINee", "The Boyz", "Pentagon", "Winner", "iKON", "NCT DREAM", "(G)I-DLE"]
+
 def run():
     
-    conn = sqlite3.connect("spotify.db")
+    conn = sqlite3.connect("K-POP.db")
     cur = conn.cursor()
     
     user_input = input("First time?: ")
