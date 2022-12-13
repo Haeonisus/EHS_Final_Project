@@ -82,8 +82,76 @@ def join_visualization(year, gdp, trend):
     plt.tight_layout()
     plt.show()
 
-def trend_visualization(year, trend):
-    pass
+
+def trend_visualization(year, cur, conn):
+    cur.execute("SELECT BTS FROM trends")
+    conn.commit()
+    bts = cur.fetchall()
+    bts_list = []
+    i = 0
+    while i < len(bts):
+        btsRow = sum(bts[i])
+        bts_list.append(btsRow)
+        i += 1
+    bts_list.reverse()
+
+    cur.execute("SELECT BLACKPINK FROM trends")
+    conn.commit()
+    bp = cur.fetchall()
+    bp_list = []
+    i = 0
+    while i < len(bp):
+        bpRow = sum(bp[i])
+        bp_list.append(bpRow)
+        i += 1
+    bp_list.reverse()
+
+    cur.execute("SELECT TWICE FROM trends")
+    conn.commit()
+    twice = cur.fetchall()
+    twice_list = []
+    i = 0
+    while i < len(twice):
+        twiceRow = sum(twice[i])
+        twice_list.append(twiceRow)
+        i += 1
+    twice_list.reverse()
+
+    cur.execute("SELECT StrayKids FROM trends")
+    conn.commit()
+    sk = cur.fetchall()
+    sk_list = []
+    i = 0
+    while i < len(sk):
+        skRow = sum(sk[i])
+        sk_list.append(skRow)
+        i += 1
+    sk_list.reverse()
+
+    cur.execute("SELECT NCT127 FROM trends")
+    conn.commit()
+    nct = cur.fetchall()
+    nct_list = []
+    i = 0
+    while i < len(bp):
+        nctRow = sum(nct[i])
+        nct_list.append(nctRow)
+        i += 1
+    nct_list.reverse()
+
+    plt.figure()
+    plt.plot(year, bts_list)
+    plt.plot(year, bp_list)
+    plt.plot(year, twice_list)
+    plt.plot(year, sk_list)
+    plt.plot(year, nct_list)
+    plt.xlabel("YEAR")
+    plt.ylabel("Google Trends")
+    plt.title("Google search trends changes over time")
+    plt.xticks(rotation = 45)
+    plt.tight_layout()
+    plt.show()
+
 
 def main():
     conn, cur = set_connector()
@@ -91,6 +159,7 @@ def main():
     total_table(cur, conn, total_list)
     year, gdp, trend = join_table(cur, conn)
     join_visualization(year, gdp, trend)
+    trend_visualization(year, cur, conn)
     
 if __name__ == "__main__":
     main()
