@@ -1,0 +1,21 @@
+Calculate the total search trends per year for all give groups
+---------------------------------------------------------------------------------------------------------
+The total trend search in 2003 is ... 0
+The total trend search in 2004 is ... 223
+The total trend search in 2005 is ... 225
+The total trend search in 2006 is ... 220
+The total trend search in 2007 is ... 222
+The total trend search in 2008 is ... 201
+The total trend search in 2009 is ... 175
+The total trend search in 2010 is ... 170
+The total trend search in 2011 is ... 195
+The total trend search in 2012 is ... 193
+The total trend search in 2013 is ... 190
+The total trend search in 2014 is ... 242
+The total trend search in 2015 is ... 364
+The total trend search in 2016 is ... 834
+The total trend search in 2017 is ... 1444
+The total trend search in 2018 is ... 1950
+The total trend search in 2019 is ... 1946
+The total trend search in 2020 is ... 2141
+The total trend search in 2021 is ... 2056
