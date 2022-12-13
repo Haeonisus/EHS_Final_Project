@@ -16,7 +16,7 @@ def get_data() :
         "engine": "google_trends",
         "q": "BTS, BLACKPINK, TWICE, Stray Kids, NCT 127",
         "data_type": "TIMESERIES",
-        "date": "2002-01-01 2021-12-31",
+        "date": "2003-01-01 2021-12-31",
         "cat": "3",
         "api_key": "ada9cfe28fcdf8fb00125c01d68c6471449a3e8a2be8228a15ba33d5d40795a4"
     }
@@ -29,7 +29,8 @@ def get_data() :
 def set_table(cur, conn, data):
     '''Set the table'''
 
-    cur.execute('''CREATE TABLE IF NOT EXISTS trends(id INTEGER PRIMARY KEY, date TEXT, value INTEGER)''')
+    cur.execute('''DROP TABLE IF EXISTS trends''')
+    cur.execute('''CREATE TABLE IF NOT EXISTS trends(id INTEGER PRIMARY KEY, date TEXT, BTS INTEGER, BLACKPINK INTEGER, TWICE INTEGER, StrayKids INTEGER, NCT127 INTEGER)''')
     conn.commit()
 
     date = []
@@ -48,7 +49,7 @@ def set_table(cur, conn, data):
     
     years = {}
 
-    for i in range(2002, 2022):
+    for i in range(2003, 2022):
         years[i] = {'BTS':0, 'BLACKPINK':0, 'TWICE':0, 'Stray Kids':0, 'NCT 127':0}
     
     for i in range(len(group1)):
@@ -60,19 +61,31 @@ def set_table(cur, conn, data):
         years[year]['Stray Kids'] += group4[i]
         years[year]['NCT 127'] += group5[i]
     
-    return years
+    year = sorted(years.items(), reverse=True)
+    return year
 
-def insert_data(cur, conn, date, value):
-        row = cur.execute("SELECT date FROM trends")
-        row = len(row.fetchall())
-        max = 25
-
-
+def insert_data(cur, conn, year):
+    row = cur.execute("SELECT date FROM trends")
+    rows = len(row.fetchall())
+    max = 25
+    if rows < max:
+        i = 0
+        while i < max:
+            if i >= len(year):
+                break
+            else:
+                data = list(year[i])[0]
+                group = list(year[i])[1]
+                cur.execute("INSERT OR IGNORE INTO trends VALUES(?,?,?,?,?,?,?)", (i+1, data, group['BTS'], group['BLACKPINK'],group['TWICE'],group['Stray Kids'],group['NCT 127']))
+                conn.commit()
+                i += 1
 
 def main():
     conn, cur = set_connector()
     data = get_data()
-    years = set_table(conn, cur, data)
+    years = set_table(cur, conn, data)
     print(years)
+    insert_data(cur, conn, years)
+
 if __name__ == "__main__":
     main()
