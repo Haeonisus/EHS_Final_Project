@@ -73,13 +73,14 @@ def join_table(cur, conn):
 
 def join_visualization(year, gdp, trend):
     plt.figure()
-    plt.plot(year, gdp)
-    plt.plot(year, trend)
+    plt.plot(year, gdp, label = 'GDP')
+    plt.plot(year, trend, label = 'Trend')
     plt.xlabel("YEAR")
     plt.ylabel("Growth")
     plt.title("GDP and Trend changes over time")
     plt.xticks(rotation = 45)
     plt.tight_layout()
+    plt.legend()
     plt.show()
 
 
@@ -140,16 +141,17 @@ def trend_visualization(year, cur, conn):
     nct_list.reverse()
 
     plt.figure()
-    plt.plot(year, bts_list)
-    plt.plot(year, bp_list)
-    plt.plot(year, twice_list)
-    plt.plot(year, sk_list)
-    plt.plot(year, nct_list)
+    plt.plot(year, bts_list, label = 'BTS')
+    plt.plot(year, bp_list, label = 'BLACKPINK')
+    plt.plot(year, twice_list, label = 'TWICE')
+    plt.plot(year, sk_list, label = 'Stray Kids')
+    plt.plot(year, nct_list, label = 'NCT 127')
     plt.xlabel("YEAR")
     plt.ylabel("Google Trends")
     plt.title("Google search trends changes over time")
     plt.xticks(rotation = 45)
     plt.tight_layout()
+    plt.legend()
     plt.show()
 
 
