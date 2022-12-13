@@ -23,7 +23,6 @@ def get_data() :
 
     search = GoogleSearch(params)
     results = search.get_json()
-    print(results)
     return results
 
 def set_table(cur, conn, data):
@@ -84,7 +83,6 @@ def main():
     conn, cur = set_connector()
     data = get_data()
     years = set_table(cur, conn, data)
-    print(years)
     insert_data(cur, conn, years)
 
 if __name__ == "__main__":
