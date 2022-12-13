@@ -40,11 +40,57 @@ def kpop_growth(filename, cur, conn):
     while y < len(date_list):
         f.write("The total trend search in " + date_list[y] + " is ... " + str(total_list[y]) + "\n")
         y += 1
-    return date_list, total_list
+    
+    total_list.reverse()
+
+    return total_list
+
+def total_table(cur, conn, total_list):
+    cur.execute('''CREATE TABLE IF NOT EXISTS totals(id INTEGER PRIMARY KEY, total INTEGER)''')
+    conn.commit()
+    
+    for i in range(len(total_list)):
+        cur.execute("INSERT OR IGNORE INTO totals VALUES(?,?)", (i+1, total_list[i]))
+        conn.commit()
+
+def join_table(cur, conn):
+    cur.execute('''SELECT gdp.date, gdp.value, totals.total FROM totals JOIN gdp ON gdp.id = totals.id''')
+    conn.commit()
+
+    s = cur.fetchall()
+    conn.commit()
+    year = []
+    gdp = []
+    trend = []
+    for i in s:
+        year.append(list(i)[0])
+        gdp.append(list(i)[1])
+        trend.append(list(i)[2] * 500000000)
+    year.reverse()
+    gdp.reverse()
+    trend.reverse()
+    return year, gdp, trend
+
+def join_visualization(year, gdp, trend):
+    plt.figure()
+    plt.plot(year, gdp)
+    plt.plot(year, trend)
+    plt.xlabel("YEAR")
+    plt.ylabel("Growth")
+    plt.title("GDP and Trend changes over time")
+    plt.xticks(rotation = 45)
+    plt.tight_layout()
+    plt.show()
+
+def trend_visualization(year, trend):
+    pass
 
 def main():
     conn, cur = set_connector()
-    date_list, total_list = kpop_growth('trend_calculation.txt', cur, conn)
+    total_list = kpop_growth('trend_calculation.txt', cur, conn)
+    total_table(cur, conn, total_list)
+    year, gdp, trend = join_table(cur, conn)
+    join_visualization(year, gdp, trend)
     
 if __name__ == "__main__":
     main()
